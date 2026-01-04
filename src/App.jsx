@@ -1,26 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
+import TodosCardQuery from "./components/TodosCardQuery";
+import "./index.css";
 
-function App() {
-  const { data: todos = [], isLoading } = useQuery({
-    queryKey: ["todos"],
-    queryFn: () =>
-      fetch("https://jsonplaceholder.typicode.com/todos?_limit=5").then((r) =>
-        r.json()
-      ),
-  });
 
-  if (isLoading) return <p>Loading...</p>;
-
+export default function App() {
   return (
-    <>
-      <h1>Todo app (React Query)</h1>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
+    <div className="page">
+      <h2>Experiment 1a — query (10 components)</h2>
+
+      <div className="cards">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <TodosCardQuery key={i} index={i + 1} />
         ))}
-      </ul>
-    </>
+      </div>
+    </div>
   );
 }
-
-export default App;
