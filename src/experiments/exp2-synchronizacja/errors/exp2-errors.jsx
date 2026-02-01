@@ -1,31 +1,24 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { simulateFetchTodos } from "./forErrAPI";
 
-export default function Exp2ErrorsBugged() {
+export default function Exp2ErrorsQuery() {
   const [isFailure, setIsFailure] = useState(false);
 
-  const [status, setStatus] = useState("idle");
-  const [data, setData] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const query = useQuery({
+    queryKey: ["exp2c-errors", { isFailure }],
+    queryFn: () => simulateFetchTodos({ isFailure, delay: 2000 }),
+    enabled: false, // jak w manual: start dopiero po kliknięciu "Fetch"
+    retry: 0, // jak w manual: Retry robimy ręcznie przyciskiem
+  });
 
   const handleFetch = () => {
-    setStatus("loading");
-    setErrorMsg(null);
-
-    simulateFetchTodos({ isFailure, delay: 2000 })
-      .then((result) => {
-        setData(result);
-        setStatus("success");
-      })
-      .catch((err) => {
-        setErrorMsg(err.message);
-        setStatus("error");
-      });
+    query.refetch();
   };
 
   return (
     <div className="page">
-      <h2>Exp2c — Errors / retry (manual) — BUG</h2>
+      <h2>Exp2c — Errors / retry (query)</h2>
 
       <label>
         <input
@@ -36,22 +29,27 @@ export default function Exp2ErrorsBugged() {
         Symuluj błąd zapytania
       </label>
 
-      <button onClick={handleFetch} disabled={status === "loading"}>
+      <br />
+      <br />
+
+      <button onClick={handleFetch} disabled={query.isFetching}>
         Fetch
       </button>
 
-      {status === "loading" && <div>Loading…</div>}
+      {query.isFetching && <div>Loading…</div>}
 
-      {status === "error" && (
+      {query.isError && (
         <div>
-          <div>Błąd: {errorMsg}</div>
-          <button onClick={handleFetch}>Retry</button>
+          <div>Błąd: {query.error?.message}</div>
+          <button onClick={handleFetch} disabled={query.isFetching}>
+            Retry
+          </button>
         </div>
       )}
 
-      {data && (
+      {query.isSuccess && (
         <ul>
-          {data.map((t) => (
+          {query.data?.map((t) => (
             <li key={t.id}>{t.todoName}</li>
           ))}
         </ul>

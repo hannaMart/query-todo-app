@@ -1,79 +1,85 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { simulateFetchTodos } from "./forErrAPI";
 
-export default function Exp2ErrorsLoading() {
+export default function Exp2ErrorsLoadingQuery() {
+  // ===== CASE 1: odpowiednik BUG 1 (w manual można "zablokować loading")
+  // Tu pokazujemy: Query utrzymuje spójny status, a reset to remove().
   const [fail1, setFail1] = useState(false);
-  const [status1, setStatus1] = useState("idle");
-  const [data1, setData1] = useState(null);
-  const [error1, setError1] = useState(null);
 
-  const startBug1 = () => {
-    setStatus1("loading");
-    setData1(null);
-    setError1(null);
+  const q1 = useQuery({
+    queryKey: ["exp2c-loading-1", { fail1 }],
+    queryFn: () => simulateFetchTodos({ isFailure: fail1, delay: 1200 }),
+    enabled: false,
+    retry: 0,
+  });
 
-    simulateFetchTodos({ isFailure: fail1, delay: 1200 })
-      .then((result) => {
-        setData1(result);
-      })
-      .catch((err) => {
-        setError1(err.message);
-      });
+  const start1 = () => q1.refetch();
+  const reset1 = () => q1.remove();
+
+  // ===== CASE 2: odpowiednik BUG 2 (w manual retry bez loading, bo nie ustawiono statusu)
+  // Tu pokazujemy: refetch zawsze przełącza isFetching na czas żądania.
+  const q2 = useQuery({
+    queryKey: ["exp2c-loading-2"],
+    queryFn: async () => {
+      // start zawsze błędny (jak "Start z błędem"), retry zawsze ok
+      // ale sterujemy tym przyciskami przez osobny stan:
+      // - w trybie "fail": isFailure=true
+      // - w trybie "ok": isFailure=false
+      // (logika poniżej)
+      return [];
+    },
+    enabled: false,
+    retry: 0,
+  });
+
+  // Zrobimy q2 jako "manualny refetch" z parametrem,
+  // ale bez zmiany queryKey (żeby było jak w manual: retry bez zmiany scenariusza).
+  // Najprościej: wywołujemy simulateFetchTodos bezpośrednio przez queryClient? — nie trzeba.
+  // W TanStack Query v5 refetch przyjmuje opcje, ale queryFn i tak jest zdefiniowany.
+  // Dlatego robimy osobne dwa query dla case2: fail i ok.
+  const q2Fail = useQuery({
+    queryKey: ["exp2c-loading-2", "fail"],
+    queryFn: () => simulateFetchTodos({ isFailure: true, delay: 800 }),
+    enabled: false,
+    retry: 0,
+  });
+
+  const q2Ok = useQuery({
+    queryKey: ["exp2c-loading-2", "ok"],
+    queryFn: () => simulateFetchTodos({ isFailure: false, delay: 800 }),
+    enabled: false,
+    retry: 0,
+  });
+
+  const start2Fail = () => q2Fail.refetch();
+  const retry2Ok = () => q2Ok.refetch();
+
+  const reset2 = () => {
+    q2Fail.remove();
+    q2Ok.remove();
   };
 
-  const resetBug1 = () => {
-    setStatus1("idle");
-    setData1(null);
-    setError1(null);
-  };
-
-  const [status2, setStatus2] = useState("idle");
-  const [data2, setData2] = useState(null);
-  const [error2, setError2] = useState(null);
-
-  const startBug2Fail = () => {
-    setStatus2("loading");
-    setData2(null);
-    setError2(null);
-
-    simulateFetchTodos({ isFailure: true, delay: 800 })
-      .then((result) => {
-        setData2(result);
-        setStatus2("success");
-      })
-      .catch((err) => {
-        setError2(err.message);
-        setStatus2("error");
-      });
-  };
-
-  const retryBug2Ok = () => {
-    setError2(null);
-
-    simulateFetchTodos({ isFailure: false, delay: 800 })
-      .then((result) => {
-        setData2(result);
-        setStatus2("success");
-      })
-      .catch((err) => {
-        setError2(err.message);
-        setStatus2("error");
-      });
-  };
-
-  const resetBug2 = () => {
-    setStatus2("idle");
-    setData2(null);
-    setError2(null);
-  };
+  // Для UI case2 используем “активное состояние”:
+  // если ok уже успешен — показываем ok, иначе показываем fail (если он был)
+  const case2 =
+    q2Ok.isSuccess
+      ? { status: "success", data: q2Ok.data, error: null, isFetching: q2Ok.isFetching }
+      : q2Fail.isError
+      ? { status: "error", data: null, error: q2Fail.error, isFetching: q2Fail.isFetching }
+      : q2Fail.isFetching
+      ? { status: "loading", data: null, error: null, isFetching: true }
+      : q2Fail.isSuccess
+      ? { status: "success", data: q2Fail.data, error: null, isFetching: q2Fail.isFetching }
+      : { status: "idle", data: null, error: null, isFetching: false };
 
   return (
     <div className="page">
-      <h2>Exp2c — Loading (errors)</h2>
+      <h2>Exp2c — Loading (errors) — query</h2>
 
       <hr />
 
-      <h3>BUG 1 — loading zablokowany</h3>
+      <h3>CASE 1 — brak “zablokowanego loading”</h3>
 
       <label>
         <input
@@ -82,17 +88,32 @@ export default function Exp2ErrorsLoading() {
           onChange={(e) => setFail1(e.target.checked)}
         />
         Symuluj błąd
-      </label><br /><br />
+      </label>
 
-      <button onClick={startBug1}>Start</button>
-      <button onClick={resetBug1}>Reset</button>
+      <br />
+      <br />
 
-      <div>Status: {status1}</div>
-      {status1 === "loading" && <div>Loading…</div>}
-      {error1 && <div>Błąd: {error1}</div>}
-      {data1 && (
+      <button onClick={start1} disabled={q1.isFetching}>
+        Start
+      </button>
+      <button onClick={reset1}>Reset</button>
+
+      <div>
+        Status:{" "}
+        {q1.isFetching
+          ? "loading"
+          : q1.isError
+          ? "error"
+          : q1.isSuccess
+          ? "success"
+          : "idle"}
+      </div>
+
+      {q1.isFetching && <div>Loading…</div>}
+      {q1.isError && <div>Błąd: {q1.error?.message}</div>}
+      {q1.isSuccess && (
         <ul>
-          {data1.map((t) => (
+          {q1.data?.map((t) => (
             <li key={t.id}>{t.todoName}</li>
           ))}
         </ul>
@@ -100,20 +121,30 @@ export default function Exp2ErrorsLoading() {
 
       <hr />
 
-      <h3>BUG 2 — retry bez loading</h3>
+      <h3>CASE 2 — retry zawsze pokazuje loading (isFetching)</h3>
 
-      <button onClick={startBug2Fail}>Start z błędem</button>
-      <button onClick={retryBug2Ok} disabled={status2 !== "error"}>
+      <button onClick={start2Fail} disabled={q2Fail.isFetching || q2Ok.isFetching}>
+        Start z błędem
+      </button>
+
+      <button
+        onClick={retry2Ok}
+        disabled={!q2Fail.isError || q2Fail.isFetching || q2Ok.isFetching}
+      >
         Retry z OK
       </button>
-      <button onClick={resetBug2}>Reset</button>
 
-      <div>Status: {status2}</div>
-      {status2 === "loading" && <div>Loading…</div>}
-      {status2 === "error" && <div>Błąd: {error2}</div>}
-      {status2 === "success" && data2 && (
+      <button onClick={reset2}>Reset</button>
+
+      <div>Status: {case2.status}</div>
+
+      {(q2Fail.isFetching || q2Ok.isFetching) && <div>Loading…</div>}
+
+      {case2.status === "error" && <div>Błąd: {case2.error?.message}</div>}
+
+      {case2.status === "success" && (
         <ul>
-          {data2.map((t) => (
+          {case2.data?.map((t) => (
             <li key={t.id}>{t.todoName}</li>
           ))}
         </ul>
