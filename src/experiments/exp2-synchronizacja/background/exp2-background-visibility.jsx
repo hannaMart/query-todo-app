@@ -1,38 +1,37 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-export default function BackgroundVisibility() {
-  const [version, setVersion] = useState(1);
-  const [updatedAt, setUpdatedAt] = useState(() => new Date().toLocaleTimeString());
-  const [trigger, setTrigger] = useState("init");
+// сервер — без задержки
+function fetchDataInstant() {
+  return Promise.resolve({ value: new Date().toLocaleTimeString() });
+}
 
-  useEffect(() => {
-    const onVisibility = () => {
-      if (document.visibilityState === "visible") {
-        setVersion((v) => v + 1);
-        setUpdatedAt(new Date().toLocaleTimeString());
-        setTrigger("visibility:visible");
-      }
-    };
-
-    document.addEventListener("visibilitychange", onVisibility);
-    return () => document.removeEventListener("visibilitychange", onVisibility);
-  }, []);
+export default function BackgroundVisibilityQuery() {
+  const { data, isLoading, isFetching, dataUpdatedAt } = useQuery({
+    queryKey: ["exp2-bg-visibility-query"],
+    queryFn: fetchDataInstant,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+  });
 
   return (
     <div className="page">
-      <h2>Background — visibility</h2>
+      <h2>Background — visibility (query)</h2>
 
-      <p>
-        “Данные” обновляются <b>только</b> при возврате во вкладку
-        (visibility → visible).
-      </p>
+      {isLoading && <p>Loading…</p>}
 
-      <div className="card">
-        <div><b>Версия:</b> v{version}</div>
-        <div><b>Обновлено:</b> {updatedAt}</div>
-        <div><b>Триггер:</b> {trigger}</div>
-        <div><b>visibilityState:</b> {document.visibilityState}</div>
-      </div>
+      {!isLoading && (
+        <div className="card">
+          <div><b>Data:</b> {data?.value}</div>
+          <div><b>isFetching:</b> {String(isFetching)}</div>
+          <div>
+            <b>dataUpdatedAt:</b>{" "}
+            {dataUpdatedAt
+              ? new Date(dataUpdatedAt).toLocaleTimeString()
+              : "-"}
+          </div>
+          <div><b>visibilityState:</b> {document.visibilityState}</div>
+        </div>
+      )}
     </div>
   );
 }

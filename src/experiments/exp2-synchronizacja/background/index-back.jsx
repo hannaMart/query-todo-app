@@ -23,6 +23,11 @@ export default function Exp2BackIndex() {
           <Link to="/exp2/background/visibility">
             Synchronizacja przy powrocie do karty (Visibility)
           </Link>
+                  <li>
+          <Link to="/exp2/background/visibility-delayed">
+            Synchronizacja przy powrocie do karty (Visibility-delayed)
+          </Link>
+        </li>
         </li>
       </ul>
 
