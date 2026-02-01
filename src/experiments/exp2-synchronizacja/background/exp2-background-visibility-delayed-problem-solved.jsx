@@ -5,7 +5,7 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-// "сервер" — задержка 1500ms как в manual
+// задержка 1500ms как в manual
 async function fetchDelayed() {
   await sleep(1500);
   return {
@@ -14,25 +14,25 @@ async function fetchDelayed() {
   };
 }
 
-export default function BackgroundVisibilityDelayedPredictabilityQuery() {
+export default function BackgroundVisibilityDelayedQuerySafe() {
   const [cleared, setCleared] = useState(false);
   const [lastApplied, setLastApplied] = useState("init");
 
-  // для наглядности: "какой триггер самый свежий"
-  const latestTriggerId = useRef(0);
+  // только для наглядности (НЕ защита)
+  const triggerCounter = useRef(0);
 
   const { data, isFetching, refetch, dataUpdatedAt } = useQuery({
-    queryKey: ["exp2-bg-visibility-delayed-predictability-query"],
+    queryKey: ["exp2-bg-visibility-delayed-safe-query"],
     queryFn: fetchDelayed,
 
-    // триггеры контролируем только вручную (как в manual)
+    // мы полностью управляем триггерами сами (как в manual)
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
     retry: false,
     staleTime: 0,
 
-    // стартовое состояние без "Loading"
+    // стартовые данные, чтобы не было "пусто" до первого запроса
     initialData: () => ({
       version: 1,
       updatedAt: new Date().toLocaleTimeString(),
@@ -40,23 +40,21 @@ export default function BackgroundVisibilityDelayedPredictabilityQuery() {
   });
 
   const runRequest = async (label) => {
-    const triggerId = ++latestTriggerId.current;
+    const id = ++triggerCounter.current;
 
-    // как в manual: провал UI во время обновления
+    // имитируем manual: провал UI во время обновления
     setCleared(true);
 
+    // запускаем запрос вручную
     const result = await refetch();
 
-    // ✅ predictability: учитываем только самый свежий trigger
-    if (triggerId !== latestTriggerId.current) return;
+    // если это был самый последний триггер — отмечаем как применённый
+    // (в Query реальная защита встроена: "старый ответ" не должен перезатереть новый)
+    if (id === triggerCounter.current && result.data) {
+      setLastApplied(`${label} / trigger#${id}`);
+    }
 
-    setLastApplied(`${label} / trigger#${triggerId} (OK)`);
-    // когда это последний — можем вернуть UI
     setCleared(false);
-
-    // (result.data уже применена React Query как "последняя актуальная")
-    // мы здесь только синхронизируем текст lastApplied с "последним trigger"
-    void result;
   };
 
   useEffect(() => {
@@ -79,18 +77,17 @@ export default function BackgroundVisibilityDelayedPredictabilityQuery() {
 
   return (
     <div className="page">
-      <h2>Background — visibility (query, delayed predictability)</h2>
+      <h2>Background — visibility (query, delayed SAFE)</h2>
 
       <p>
-        В Query предсказуемость обеспечивается по умолчанию: для одного queryKey
-        применяется результат актуального запроса. Здесь мы повторяем сценарий
-        “2 обновления подряд” и фиксируем, что применяется только последний trigger.
+        В Query нет “проблемы устаревших ответов” для одного queryKey:
+        библиотека защищает от перезаписи старыми результатами.
+        Здесь мы запускаем 2 обновления подряд и наблюдаем, что применится “последнее ожидаемое”.
       </p>
 
       <div className="card">
         <div><b>Loading (isFetching):</b> {String(isFetching)}</div>
         <div><b>visibilityState:</b> {document.visibilityState}</div>
-        <div><b>latestTriggerId:</b> {latestTriggerId.current}</div>
         <div><b>Последний применённый ответ:</b> {lastApplied}</div>
 
         <hr />
