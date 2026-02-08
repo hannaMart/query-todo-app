@@ -23,40 +23,76 @@
 
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import Home from "./pages/Home"
+import Home from "./pages/Home";
+
+// ===== EXP2 =====
 import Exp2 from "./experiments/exp2-synchronizacja/index-sync.jsx";
+
 import Exp2RaceIndex from "./experiments/exp2-synchronizacja/race/index-race.jsx";
 import Exp2Race from "./experiments/exp2-synchronizacja/race/exp2-race";
+
 import Exp2BackIndex from "./experiments/exp2-synchronizacja/background/index-back.jsx";
 import Exp2Back from "./experiments/exp2-synchronizacja/background/exp2-background.jsx";
 import Exp2BackVisibility from "./experiments/exp2-synchronizacja/background/exp2-background-visibility.jsx";
 import Exp2BackVisibilityDelayed from "./experiments/exp2-synchronizacja/background/exp2-background-visibility-delayed-predictability.jsx";
+
 import Exp2ErrorsIndex from "./experiments/exp2-synchronizacja/errors/index-errors.jsx";
 import Exp2Errors from "./experiments/exp2-synchronizacja/errors/exp2-errors";
-import Exp2ErrorsFixed from "./experiments/exp2-synchronizacja/errors/exp2-errors-fixed";
 import Exp2ErrorsLoading from "./experiments/exp2-synchronizacja/errors/exp2-errors-loading";
+
+// ===== EXP3 =====
+import Exp3 from "./experiments/exp3-aktualnosc/index-exp3.jsx";
+import Exp3NoFreshness from "./experiments/exp3-aktualnosc/no-freshness.jsx";
+
+import Exp3StaleIndex from "./experiments/exp3-aktualnosc/stale-time/index-stale.jsx";
+import Exp3StaleDefault from "./experiments/exp3-aktualnosc/stale-time/stale-default.jsx";
+import Exp3Stale60s from "./experiments/exp3-aktualnosc/stale-time/stale-60s.jsx";
+
+import Exp3ReturnIndex from "./experiments/exp3-aktualnosc/return-after-break/index-return.jsx";
+import Exp3ReturnShort from "./experiments/exp3-aktualnosc/return-after-break/return-short.jsx";
+import Exp3ReturnLong from "./experiments/exp3-aktualnosc/return-after-break/return-long.jsx";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+
+      {/* ===== EXP2 ===== */}
       <Route path="/exp2" element={<Exp2 />} />
+
       <Route path="/exp2/race" element={<Exp2RaceIndex />} />
       <Route path="/exp2/race/base" element={<Exp2Race />} />
+
       <Route path="/exp2/background" element={<Exp2BackIndex />} />
       <Route path="/exp2/background/base" element={<Exp2Back />} />
       <Route path="/exp2/background/visibility" element={<Exp2BackVisibility />} />
-      <Route path="/exp2/background/visibility-delayed" element={<Exp2BackVisibilityDelayed />} />
-      <Route path="/exp2/errors" element={<Exp2ErrorsIndex />}/>
+      <Route
+        path="/exp2/background/visibility-delayed"
+        element={<Exp2BackVisibilityDelayed />}
+      />
+
+      <Route path="/exp2/errors" element={<Exp2ErrorsIndex />} />
       <Route path="/exp2/errors/base" element={<Exp2Errors />} />
-      <Route path="/exp2/errors/fixed" element={<Exp2ErrorsFixed />} />
       <Route path="/exp2/errors/loading" element={<Exp2ErrorsLoading />} />
 
-      <Route
-        path="/exp1"
-        element={<div className="exp-btn">Exp1 — позже</div>}
-      />
-      <Route path="/exp3" element={<div className="page">Exp3 — позже</div>} />
+      {/* ===== EXP3 ===== */}
+      <Route path="/exp3" element={<Exp3 />} />
+
+      {/* 3a */}
+      <Route path="/exp3/no-freshness" element={<Exp3NoFreshness />} />
+
+      {/* 3b */}
+      <Route path="/exp3/stale-time" element={<Exp3StaleIndex />} />
+      <Route path="/exp3/stale-time/default" element={<Exp3StaleDefault />} />
+      <Route path="/exp3/stale-time/60s" element={<Exp3Stale60s />} />
+
+      {/* 3c */}
+      <Route path="/exp3/return-after-break" element={<Exp3ReturnIndex />} />
+      <Route path="/exp3/return-after-break/short" element={<Exp3ReturnShort />} />
+      <Route path="/exp3/return-after-break/long" element={<Exp3ReturnLong />} />
+
+      {/* placeholders */}
+      <Route path="/exp1" element={<div className="exp-btn">Exp1 — позже</div>} />
       <Route path="/exp4" element={<div className="page">Exp4 — позже</div>} />
       <Route path="/exp5" element={<div className="page">Exp5 — позже</div>} />
       <Route path="/exp6" element={<div className="page">Exp6 — позже</div>} />
@@ -65,3 +101,4 @@ export default function App() {
     </Routes>
   );
 }
+

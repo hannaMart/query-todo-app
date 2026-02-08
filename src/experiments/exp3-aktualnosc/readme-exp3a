@@ -1,0 +1,94 @@
+PB3 — Eksperyment 3a
+Brak kontroli aktualności danych (manual vs React Query)
+Cel eksperymentu
+
+Celem eksperymentu 3a jest zbadanie, jak brak mechanizmów kontroli aktualności danych wpływa na liczbę zapytań HTTP oraz moment ich wykonywania przy ponownym wejściu użytkownika do widoku aplikacji.
+
+Eksperyment pełni rolę punktu odniesienia (baseline) dla dalszych części PB3 i pozwala zaobserwować naturalne zachowanie aplikacji w sytuacji, gdy nie istnieje jawna polityka „świeżości” danych.
+
+Metoda badawcza
+
+Eksperyment został przeprowadzony metodą porównawczą w dwóch niezależnych projektach:
+
+implementacja ręczna oparta na useEffect i useState,
+
+implementacja z wykorzystaniem biblioteki React Query (useQuery).
+
+W obu przypadkach zastosowano:
+
+identyczny scenariusz interakcji użytkownika,
+
+identyczne źródło danych (fakeFetchTodos),
+
+kontrolowane opóźnienie odpowiedzi sieciowej.
+
+Różnice pomiędzy podejściami wynikają wyłącznie ze sposobu zarządzania server-state.
+
+Scenariusz eksperymentu
+
+Użytkownik wchodzi na widok /exp3/no-freshness.
+
+Następuje pobranie danych z serwera.
+
+Użytkownik opuszcza widok (zmiana routu).
+
+Po krótkim czasie użytkownik wraca na ten sam widok.
+
+Obserwowana jest liczba rzeczywistych zapytań HTTP oraz moment ich wykonania.
+
+Scenariusz jest identyczny dla obu podejść.
+
+Opis implementacji
+Źródło danych
+
+Dla eksperymentu wykorzystano wspólną funkcję fakeFetchTodos, która:
+
+inkrementuje licznik zapytań (requestId),
+
+rejestruje moment pobrania danych (fetchedAt),
+
+wprowadza stałe opóźnienie odpowiedzi,
+
+loguje przebieg zapytań w konsoli.
+
+Pozwala to jednoznacznie określić liczbę faktycznych zapytań oraz ich czas wykonania.
+
+Implementacja manualna
+
+W podejściu ręcznym dane są pobierane w hooku useEffect wywoływanym wyłącznie podczas montowania komponentu.
+
+Brak jest:
+
+cache,
+
+informacji o czasie pobrania danych,
+
+mechanizmu decydującego o ich aktualności.
+
+Każde ponowne zamontowanie komponentu skutkuje wykonaniem nowego zapytania HTTP.
+
+Implementacja z React Query
+
+W wersji z React Query zastosowano hook useQuery bez definiowania parametru staleTime.
+
+Oznacza to, że:
+
+dane są traktowane jako nieaktualne natychmiast po pobraniu,
+
+biblioteka samodzielnie decyduje o wykonaniu zapytania przy ponownym wejściu na widok,
+
+nie została wprowadzona żadna jawna polityka kontroli świeżości danych.
+
+Wnioski
+
+W obu podejściach brak modelu aktualności danych prowadzi do ponownych zapytań HTTP przy powrocie do widoku.
+
+Implementacja ręczna zawsze inicjuje nowe zapytanie przy ponownym montowaniu komponentu.
+
+React Query, bez konfiguracji staleTime, również nie posiada mechanizmu ograniczającego liczbę refetchy.
+
+Eksperyment 3a dostarcza punktu odniesienia dla dalszych analiz w PB3, w których wprowadzane są jawne mechanizmy kontroli aktualności danych.
+
+Rola eksperymentu w pracy
+
+Eksperyment 3a stanowi bazę porównawczą dla eksperymentów 3b i 3c, umożliwiając ocenę wpływu mechanizmów takich jak staleTime oraz czasu przerwy na zachowanie sieciowe aplikacji.

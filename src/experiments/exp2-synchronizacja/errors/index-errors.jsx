@@ -22,11 +22,7 @@ export default function Exp2ErrorsIndex() {
             Wersja z błędem (niespójny stan UI)
           </Link>
         </li>
-        <li>
-          <Link to="/exp2/errors/fixed">
-            Wersja poprawiona (kontrolowana obsługa błędu)
-          </Link>
-        </li>
+
         <li>
           <Link to="/exp2/errors/loading">Loading błędy</Link>
         </li>
