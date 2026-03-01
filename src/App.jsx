@@ -48,9 +48,7 @@ import Exp3StaleIndex from "./experiments/exp3-aktualnosc/3b-stale-time/index-st
 import Exp3StaleDefault from "./experiments/exp3-aktualnosc/3b-stale-time/stale-default.jsx";
 import Exp3Stale60s from "./experiments/exp3-aktualnosc/3b-stale-time/stale-60s.jsx";
 
-import Exp3ReturnIndex from "./experiments/exp3-aktualnosc/3c-return-after-break/index-return.jsx";
-import Exp3ReturnShort from "./experiments/exp3-aktualnosc/3c-return-after-break/return-short.jsx";
-import Exp3ReturnLong from "./experiments/exp3-aktualnosc/3c-return-after-break/return-long.jsx";
+import Exp3ReturnAfterBreak from "./experiments/exp3-aktualnosc/3c-return-after-break/after-break.jsx";
 
 export default function App() {
   return (
@@ -87,9 +85,8 @@ export default function App() {
       <Route path="/exp3/stale-time/60s" element={<Exp3Stale60s />} />
 
       {/* 3c */}
-      <Route path="/exp3/return-after-break" element={<Exp3ReturnIndex />} />
-      <Route path="/exp3/return-after-break/short" element={<Exp3ReturnShort />} />
-      <Route path="/exp3/return-after-break/long" element={<Exp3ReturnLong />} />
+      <Route path="/exp3/return-after-break" element={<Exp3ReturnAfterBreak />} />
+
 
       {/* placeholders */}
       <Route path="/exp1" element={<div className="exp-btn">Exp1 — позже</div>} />
