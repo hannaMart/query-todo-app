@@ -14,7 +14,7 @@ let counter = 0;
  * - fetchedAt: чтобы видеть "свежесть" данных
  * - delay: чтобы поведение было повторяемым
  */
-export function fakeFetchTodos({ delay = 600 } = {}) {
+export function fakeFetch({ delay = 600 } = {}) {
   const requestId = ++counter;
   const startedAt = Date.now();
 

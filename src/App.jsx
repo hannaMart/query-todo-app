@@ -42,15 +42,15 @@ import Exp2ErrorsLoading from "./experiments/exp2-synchronizacja/errors/exp2-err
 
 // ===== EXP3 =====
 import Exp3 from "./experiments/exp3-aktualnosc/index-exp3.jsx";
-import Exp3NoFreshness from "./experiments/exp3-aktualnosc/no-freshness.jsx";
+import Exp3NoFreshness from "./experiments/exp3-aktualnosc/3a-no-freshness.jsx";
 
-import Exp3StaleIndex from "./experiments/exp3-aktualnosc/stale-time/index-stale.jsx";
-import Exp3StaleDefault from "./experiments/exp3-aktualnosc/stale-time/stale-default.jsx";
-import Exp3Stale60s from "./experiments/exp3-aktualnosc/stale-time/stale-60s.jsx";
+import Exp3StaleIndex from "./experiments/exp3-aktualnosc/3b-stale-time/index-stale.jsx";
+import Exp3StaleDefault from "./experiments/exp3-aktualnosc/3b-stale-time/stale-default.jsx";
+import Exp3Stale60s from "./experiments/exp3-aktualnosc/3b-stale-time/stale-60s.jsx";
 
-import Exp3ReturnIndex from "./experiments/exp3-aktualnosc/return-after-break/index-return.jsx";
-import Exp3ReturnShort from "./experiments/exp3-aktualnosc/return-after-break/return-short.jsx";
-import Exp3ReturnLong from "./experiments/exp3-aktualnosc/return-after-break/return-long.jsx";
+import Exp3ReturnIndex from "./experiments/exp3-aktualnosc/3c-return-after-break/index-return.jsx";
+import Exp3ReturnShort from "./experiments/exp3-aktualnosc/3c-return-after-break/return-short.jsx";
+import Exp3ReturnLong from "./experiments/exp3-aktualnosc/3c-return-after-break/return-long.jsx";
 
 export default function App() {
   return (

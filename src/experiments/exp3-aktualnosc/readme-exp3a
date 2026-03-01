@@ -1,94 +1,94 @@
-PB3 — Eksperyment 3a
-Brak kontroli aktualności danych (manual vs React Query)
-Cel eksperymentu
+PB3 — Эксперимент 3a
+Отсутствие контроля актуальности данных (manual vs React Query)
+Цель эксперимента
 
-Celem eksperymentu 3a jest zbadanie, jak brak mechanizmów kontroli aktualności danych wpływa na liczbę zapytań HTTP oraz moment ich wykonywania przy ponownym wejściu użytkownika do widoku aplikacji.
+Целью эксперимента 3a является анализ влияния отсутствия механизмов контроля актуальности данных на количество HTTP-запросов и момент их выполнения при повторном входе пользователя в представление приложения.
 
-Eksperyment pełni rolę punktu odniesienia (baseline) dla dalszych części PB3 i pozwala zaobserwować naturalne zachowanie aplikacji w sytuacji, gdy nie istnieje jawna polityka „świeżości” danych.
+Эксперимент выполняет роль базовой точки отсчёта (baseline) для последующих частей PB3 и позволяет наблюдать естественное поведение приложения в условиях отсутствия явной политики «свежести» данных.
 
-Metoda badawcza
+Метод исследования
 
-Eksperyment został przeprowadzony metodą porównawczą w dwóch niezależnych projektach:
+Эксперимент проведён сравнительным методом в двух независимых проектах:
 
-implementacja ręczna oparta na useEffect i useState,
+ручная реализация на основе хуков useEffect и useState,
 
-implementacja z wykorzystaniem biblioteki React Query (useQuery).
+реализация с использованием библиотеки React Query (useQuery).
 
-W obu przypadkach zastosowano:
+В обоих вариантах были обеспечены идентичные условия:
 
-identyczny scenariusz interakcji użytkownika,
+одинаковый сценарий пользовательского взаимодействия,
 
-identyczne źródło danych (fakeFetchTodos),
+общий источник данных (fakeFetchTodos),
 
-kontrolowane opóźnienie odpowiedzi sieciowej.
+контролируемая задержка сетевого ответа.
 
-Różnice pomiędzy podejściami wynikają wyłącznie ze sposobu zarządzania server-state.
+Различия в поведении приложения обусловлены исключительно выбранным способом управления server-state.
 
-Scenariusz eksperymentu
+Сценарий эксперимента
 
-Użytkownik wchodzi na widok /exp3/no-freshness.
+Пользователь переходит на страницу /exp3/no-freshness.
 
-Następuje pobranie danych z serwera.
+Происходит загрузка данных с сервера.
 
-Użytkownik opuszcza widok (zmiana routu).
+Пользователь покидает страницу (смена маршрута).
 
-Po krótkim czasie użytkownik wraca na ten sam widok.
+Через короткий промежуток времени пользователь возвращается на тот же экран.
 
-Obserwowana jest liczba rzeczywistych zapytań HTTP oraz moment ich wykonania.
+Фиксируется количество фактических HTTP-запросов и момент их выполнения.
 
-Scenariusz jest identyczny dla obu podejść.
+Сценарий полностью идентичен для обоих подходов.
 
-Opis implementacji
-Źródło danych
+Описание реализации
+Источник данных
 
-Dla eksperymentu wykorzystano wspólną funkcję fakeFetchTodos, która:
+В эксперименте используется единая функция fakeFetchTodos, которая:
 
-inkrementuje licznik zapytań (requestId),
+увеличивает счётчик запросов (requestId),
 
-rejestruje moment pobrania danych (fetchedAt),
+фиксирует момент получения данных (fetchedAt),
 
-wprowadza stałe opóźnienie odpowiedzi,
+реализует постоянную задержку ответа,
 
-loguje przebieg zapytań w konsoli.
+логирует выполнение запросов в консоль.
 
-Pozwala to jednoznacznie określić liczbę faktycznych zapytań oraz ich czas wykonania.
+Это позволяет однозначно определить количество реальных запросов и время их выполнения.
 
-Implementacja manualna
+Ручная реализация
 
-W podejściu ręcznym dane są pobierane w hooku useEffect wywoływanym wyłącznie podczas montowania komponentu.
+В ручном подходе загрузка данных выполняется в хуке useEffect, который вызывается исключительно при монтировании компонента.
 
-Brak jest:
+Не используются:
 
-cache,
+механизмы кеширования,
 
-informacji o czasie pobrania danych,
+модели актуальности данных,
 
-mechanizmu decydującego o ich aktualności.
+условия, определяющие необходимость повторного запроса.
 
-Każde ponowne zamontowanie komponentu skutkuje wykonaniem nowego zapytania HTTP.
+Каждое повторное монтирование компонента приводит к выполнению нового HTTP-запроса.
 
-Implementacja z React Query
+Реализация с React Query
 
-W wersji z React Query zastosowano hook useQuery bez definiowania parametru staleTime.
+В реализации с React Query используется хук useQuery без задания параметра staleTime.
 
-Oznacza to, że:
+Это означает, что:
 
-dane są traktowane jako nieaktualne natychmiast po pobraniu,
+данные считаются неактуальными сразу после получения,
 
-biblioteka samodzielnie decyduje o wykonaniu zapytania przy ponownym wejściu na widok,
+решение о повторном выполнении запроса при возврате на экран принимает сама библиотека,
 
-nie została wprowadzona żadna jawna polityka kontroli świeżości danych.
+явная политика контроля актуальности данных не задаётся.
 
-Wnioski
+Выводы
 
-W obu podejściach brak modelu aktualności danych prowadzi do ponownych zapytań HTTP przy powrocie do widoku.
+В отсутствие модели контроля актуальности данных оба подхода приводят к повторным HTTP-запросам при возврате пользователя на экран.
 
-Implementacja ręczna zawsze inicjuje nowe zapytanie przy ponownym montowaniu komponentu.
+В ручной реализации повторный запрос выполняется при каждом новом монтировании компонента.
 
-React Query, bez konfiguracji staleTime, również nie posiada mechanizmu ograniczającego liczbę refetchy.
+React Query без настройки параметра staleTime также не ограничивает количество повторных запросов посредством модели актуальности данных.
 
-Eksperyment 3a dostarcza punktu odniesienia dla dalszych analiz w PB3, w których wprowadzane są jawne mechanizmy kontroli aktualności danych.
+Эксперимент 3a формирует базу для дальнейшего анализа в рамках PB3.
 
-Rola eksperymentu w pracy
+Роль эксперимента в работе
 
-Eksperyment 3a stanowi bazę porównawczą dla eksperymentów 3b i 3c, umożliwiając ocenę wpływu mechanizmów takich jak staleTime oraz czasu przerwy na zachowanie sieciowe aplikacji.
+Эксперимент 3a служит базовым сравнительным уровнем для экспериментов 3b и 3c и позволяет оценить влияние явных механизмов контроля актуальности данных (например, staleTime) и времени отсутствия пользователя на сетевое поведение приложения.

@@ -14,17 +14,17 @@ export default function Exp3Aktualnosc() {
 
       <ul className="exp3__list">
         <li>
-          <Link to="/exp3/no-freshness">
+          <Link to="/exp3/3a-no-freshness">
             Отсутствие контроля актуальности данных
           </Link>
         </li>
         <li>
-          <Link to="/exp3/stale-time">
+          <Link to="/exp3/3b-stale-time">
             Влияние staleTime на повторные запросы
           </Link>
         </li>
         <li>
-          <Link to="/exp3/return-after-break">
+          <Link to="/exp3/3c-return-after-break">
             Возврат к представлению после перерыва
           </Link>
         </li>
