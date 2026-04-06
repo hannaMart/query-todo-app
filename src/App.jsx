@@ -50,6 +50,12 @@ import Exp3Stale60s from "./experiments/exp3-aktualnosc/3b-stale-time/stale-60s.
 
 import Exp3ReturnAfterBreak from "./experiments/exp3-aktualnosc/3c-return-after-break/after-break.jsx";
 
+// ===== EXP4 =====
+import Exp4 from "./experiments/exp4-mutacje/index-exp4.jsx";
+import Exp4AddInvalidate from "./experiments/exp4-mutacje/add-invalidate.jsx";
+import Exp4DeleteInvalidate from "./experiments/exp4-mutacje/delete-invalidate.jsx";
+
+
 export default function App() {
   return (
     <Routes>
@@ -87,10 +93,15 @@ export default function App() {
       {/* 3c */}
       <Route path="/exp3/return-after-break" element={<Exp3ReturnAfterBreak />} />
 
+      {/* ===== EXP4 ===== */}
+
+      <Route path="/exp4" element={<Exp4/>}/>
+      <Route path="/exp4/add-invalidate" element={<Exp4AddInvalidate/>}/>
+      <Route path="/exp4/delete-invalidate" element={<Exp4DeleteInvalidate/>}/>
+
 
       {/* placeholders */}
       <Route path="/exp1" element={<div className="exp-btn">Exp1 — позже</div>} />
-      <Route path="/exp4" element={<div className="page">Exp4 — позже</div>} />
       <Route path="/exp5" element={<div className="page">Exp5 — позже</div>} />
       <Route path="/exp6" element={<div className="page">Exp6 — позже</div>} />
 
