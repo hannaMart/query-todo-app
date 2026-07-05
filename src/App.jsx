@@ -55,6 +55,11 @@ import Exp4 from "./experiments/exp4-mutacje/index-exp4.jsx";
 import Exp4AddInvalidate from "./experiments/exp4-mutacje/add-invalidate.jsx";
 import Exp4DeleteInvalidate from "./experiments/exp4-mutacje/delete-invalidate.jsx";
 
+// ===== EXP5 =====
+import Exp5Parametry from "./experiments/exp5-parametry/index-exp5";
+import Exp5ParamChange from "./experiments/exp5-parametry/param-change";
+import Exp5ParamFastChange from "./experiments/exp5-parametry/param-fast-change";
+import Exp5ParamCache from "./experiments/exp5-parametry/param-cache";
 
 export default function App() {
   return (
@@ -69,7 +74,10 @@ export default function App() {
 
       <Route path="/exp2/background" element={<Exp2BackIndex />} />
       <Route path="/exp2/background/base" element={<Exp2Back />} />
-      <Route path="/exp2/background/visibility" element={<Exp2BackVisibility />} />
+      <Route
+        path="/exp2/background/visibility"
+        element={<Exp2BackVisibility />}
+      />
       <Route
         path="/exp2/background/visibility-delayed"
         element={<Exp2BackVisibilityDelayed />}
@@ -91,17 +99,32 @@ export default function App() {
       <Route path="/exp3/stale-time/60s" element={<Exp3Stale60s />} />
 
       {/* 3c */}
-      <Route path="/exp3/return-after-break" element={<Exp3ReturnAfterBreak />} />
+      <Route
+        path="/exp3/return-after-break"
+        element={<Exp3ReturnAfterBreak />}
+      />
 
       {/* ===== EXP4 ===== */}
 
-      <Route path="/exp4" element={<Exp4/>}/>
-      <Route path="/exp4/add-invalidate" element={<Exp4AddInvalidate/>}/>
-      <Route path="/exp4/delete-invalidate" element={<Exp4DeleteInvalidate/>}/>
+      <Route path="/exp4" element={<Exp4 />} />
+      <Route path="/exp4/add-invalidate" element={<Exp4AddInvalidate />} />
+      <Route
+        path="/exp4/delete-invalidate"
+        element={<Exp4DeleteInvalidate />}
+      />
 
+      {/* ===== EXP5 ===== */}
+
+      <Route path="/exp5" element={<Exp5Parametry />} />
+      <Route path="/exp5/param-change" element={<Exp5ParamChange />} />
+      <Route path="/exp5/param-fast-change" element={<Exp5ParamFastChange />} />
+      <Route path="/exp5/param-cache" element={<Exp5ParamCache />} />
 
       {/* placeholders */}
-      <Route path="/exp1" element={<div className="exp-btn">Exp1 — позже</div>} />
+      <Route
+        path="/exp1"
+        element={<div className="exp-btn">Exp1 — позже</div>}
+      />
       <Route path="/exp5" element={<div className="page">Exp5 — позже</div>} />
       <Route path="/exp6" element={<div className="page">Exp6 — позже</div>} />
 
@@ -109,4 +132,3 @@ export default function App() {
     </Routes>
   );
 }
-
