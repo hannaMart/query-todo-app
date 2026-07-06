@@ -61,6 +61,13 @@ import Exp5ParamChange from "./experiments/exp5-parametry/param-change";
 import Exp5ParamFastChange from "./experiments/exp5-parametry/param-fast-change";
 import Exp5ParamCache from "./experiments/exp5-parametry/param-cache";
 
+// ===== EXP6 =====
+import Exp6Koordynacja from "./experiments/exp6-koordynacja/index-exp6.jsx";
+import Exp6Shared from "./experiments/exp6-koordynacja/shared.jsx";
+import Exp6Representations from "./experiments/exp6-koordynacja/representations.jsx";
+import Exp6Update from "./experiments/exp6-koordynacja/update.jsx";
+
+
 export default function App() {
   return (
     <Routes>
@@ -125,10 +132,23 @@ export default function App() {
         path="/exp1"
         element={<div className="exp-btn">Exp1 — позже</div>}
       />
-      <Route path="/exp5" element={<div className="page">Exp5 — позже</div>} />
-      <Route path="/exp6" element={<div className="page">Exp6 — позже</div>} />
+
+              {/* ===== EXP6 ===== */}
+
+      <Route path="/exp6" element={<Exp6Koordynacja />} />
+      <Route path="/exp6/shared" element={<Exp6Shared />} />
+      <Route
+        path="/exp6/representations"
+        element={<Exp6Representations />}
+      />
+            <Route
+        path="/exp6/update"
+        element={<Exp6Update/>}
+      />
 
       <Route path="*" element={<Navigate to="/" replace />} />
+
+
     </Routes>
   );
 }
