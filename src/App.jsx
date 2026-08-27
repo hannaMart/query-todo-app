@@ -50,8 +50,14 @@ import Exp3TabReturn from "./experiments/exp3-aktualnosc/3c-tab-return/tab-retur
 
 // ===== EXP4 =====
 import Exp4 from "./experiments/exp4-mutacje/index-exp4.jsx";
-import Exp4AddInvalidate from "./experiments/exp4-mutacje/add-invalidate.jsx";
-import Exp4DeleteInvalidate from "./experiments/exp4-mutacje/delete-invalidate.jsx";
+
+import Exp4AddIndex from "./experiments/exp4-mutacje/add/index-add.jsx";
+import Exp4AddInvalidate from "./experiments/exp4-mutacje/add/add-invalidate.jsx";
+import Exp4AddSetQueryData from "./experiments/exp4-mutacje/add/add-setquerydata.jsx";
+
+import Exp4DeleteIndex from "./experiments/exp4-mutacje/delete/index-delete.jsx";
+import Exp4DeleteInvalidate from "./experiments/exp4-mutacje/delete/delete-invalidate.jsx";
+import Exp4DeleteSetQueryData from "./experiments/exp4-mutacje/delete/delete-setquerydata.jsx";
 
 // ===== EXP5 =====
 import Exp5Parametry from "./experiments/exp5-parametry/index-exp5";
@@ -109,14 +115,26 @@ export default function App() {
         element={<Exp3TabReturn />}
       />
 
-      {/* ===== EXP4 ===== */}
+{/* ===== EXP4 ===== */}
 
-      <Route path="/exp4" element={<Exp4 />} />
-      <Route path="/exp4/add-invalidate" element={<Exp4AddInvalidate />} />
-      <Route
-        path="/exp4/delete-invalidate"
-        element={<Exp4DeleteInvalidate />}
-      />
+<Route path="/exp4" element={<Exp4 />} />
+
+<Route path="/exp4/add" element={<Exp4AddIndex />} />
+<Route path="/exp4/add/invalidate" element={<Exp4AddInvalidate />} />
+<Route
+  path="/exp4/add/setquerydata"
+  element={<Exp4AddSetQueryData />}
+/>
+
+<Route path="/exp4/delete" element={<Exp4DeleteIndex />} />
+<Route
+  path="/exp4/delete/invalidate"
+  element={<Exp4DeleteInvalidate />}
+/>
+<Route
+  path="/exp4/delete/setquerydata"
+  element={<Exp4DeleteSetQueryData />}
+/>
 
       {/* ===== EXP5 ===== */}
 

@@ -15,12 +15,12 @@ export default function Exp4Mutacje() {
 
       <ul className="exp4__list">
         <li>
-          <Link to="/exp4/add-invalidate">
+          <Link to="/exp4/add">
             Добавление элемента (add)
           </Link>
         </li>
         <li>
-          <Link to="/exp4/delete-invalidate">
+          <Link to="/exp4/delete">
             Удаление элемента (delete)
           </Link>
         </li>

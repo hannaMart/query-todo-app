@@ -1,23 +1,29 @@
 import { useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fakeDeleteTodo, fakeFetchTodos, resetFakeTodos } from "./fakeApi";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  fakeDeletePb4Todo,
+  fakeFetchPb4Todos,
+  resetPb4Todos,
+} from "../../../fakeServer/fakeAPI";
 
 export default function DeleteInvalidate() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    resetFakeTodos();
+    resetPb4Todos();
   }, []);
 
   const { data } = useQuery({
-    queryKey: ["todos"],
-    queryFn: fakeFetchTodos,
+    queryKey: ["pb4Todos"],
+    queryFn: fakeFetchPb4Todos,
   });
 
   const mutation = useMutation({
-    mutationFn: fakeDeleteTodo,
+    mutationFn: fakeDeletePb4Todo,
     onSuccess: () => {
-      queryClient.invalidateQueries(["todos"]);
+      return queryClient.invalidateQueries({
+        queryKey: ["pb4Todos"],
+      });
     },
   });
 
@@ -34,7 +40,8 @@ export default function DeleteInvalidate() {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            {todo.todoName}
+            {todo.title}
+
             <button
               onClick={() => handleDelete(todo.id)}
               style={{ marginLeft: "8px" }}

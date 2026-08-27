@@ -1,24 +1,30 @@
 import { useEffect, useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fakeAddTodo, fakeFetchTodos, resetFakeTodos } from "./fakeApi";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  fakeAddPb4Todo,
+  fakeFetchPb4Todos,
+  resetPb4Todos,
+} from "../../../fakeServer/fakeAPI";
 
 export default function AddInvalidate() {
   const [newTodo, setNewTodo] = useState("");
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    resetFakeTodos();
+    resetPb4Todos();
   }, []);
 
   const { data } = useQuery({
-    queryKey: ["todos"],
-    queryFn: fakeFetchTodos,
+    queryKey: ["pb4Todos"],
+    queryFn: fakeFetchPb4Todos,
   });
 
   const mutation = useMutation({
-    mutationFn: fakeAddTodo,
+    mutationFn: fakeAddPb4Todo,
     onSuccess: () => {
-      queryClient.invalidateQueries(["todos"]);
+      return queryClient.invalidateQueries({
+        queryKey: ["pb4Todos"],
+      });
     },
   });
 
@@ -45,7 +51,7 @@ export default function AddInvalidate() {
 
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>{todo.todoName}</li>
+          <li key={todo.id}>{todo.title}</li>
         ))}
       </ul>
     </div>
