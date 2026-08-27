@@ -42,13 +42,11 @@ import Exp2ErrorsLoading from "./experiments/exp2-synchronizacja/errors/exp2-err
 
 // ===== EXP3 =====
 import Exp3 from "./experiments/exp3-aktualnosc/index-exp3.jsx";
-import Exp3NoFreshness from "./experiments/exp3-aktualnosc/3a-no-freshness.jsx";
+import Exp3Baseline from "./experiments/exp3-aktualnosc/3a-baseline.jsx";
 
-import Exp3StaleIndex from "./experiments/exp3-aktualnosc/3b-stale-time/index-stale.jsx";
-import Exp3StaleDefault from "./experiments/exp3-aktualnosc/3b-stale-time/stale-default.jsx";
-import Exp3Stale60s from "./experiments/exp3-aktualnosc/3b-stale-time/stale-60s.jsx";
+import Exp3PageReturn from "./experiments/exp3-aktualnosc/3b-page-return/stale-60s.jsx";
 
-import Exp3ReturnAfterBreak from "./experiments/exp3-aktualnosc/3c-return-after-break/after-break.jsx";
+import Exp3TabReturn from "./experiments/exp3-aktualnosc/3c-tab-return/tab-return.jsx";
 
 // ===== EXP4 =====
 import Exp4 from "./experiments/exp4-mutacje/index-exp4.jsx";
@@ -66,6 +64,7 @@ import Exp6Koordynacja from "./experiments/exp6-koordynacja/index-exp6.jsx";
 import Exp6Shared from "./experiments/exp6-koordynacja/shared.jsx";
 import Exp6Representations from "./experiments/exp6-koordynacja/representations.jsx";
 import Exp6Update from "./experiments/exp6-koordynacja/update.jsx";
+
 
 
 export default function App() {
@@ -98,17 +97,16 @@ export default function App() {
       <Route path="/exp3" element={<Exp3 />} />
 
       {/* 3a */}
-      <Route path="/exp3/no-freshness" element={<Exp3NoFreshness />} />
+      <Route path="/exp3/baseline" element={<Exp3Baseline />} />
 
       {/* 3b */}
-      <Route path="/exp3/stale-time" element={<Exp3StaleIndex />} />
-      <Route path="/exp3/stale-time/default" element={<Exp3StaleDefault />} />
-      <Route path="/exp3/stale-time/60s" element={<Exp3Stale60s />} />
+
+      <Route path="/exp3/page-return" element={<Exp3PageReturn />} />
 
       {/* 3c */}
       <Route
-        path="/exp3/return-after-break"
-        element={<Exp3ReturnAfterBreak />}
+        path="/exp3/tab-return"
+        element={<Exp3TabReturn />}
       />
 
       {/* ===== EXP4 ===== */}

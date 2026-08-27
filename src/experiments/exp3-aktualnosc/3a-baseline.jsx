@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { fakeFetch } from "./fakeFetch";
+import { fakeFetchFreshness } from "../../fakeServer/fakeAPI";
 
-export default function Exp3NoFreshness() {
+export default function Exp3Baseline() {
   const { data, isLoading } = useQuery({
     queryKey: ["pb3", "no-freshness"],
-    queryFn: fakeFetch,
+    queryFn: fakeFetchFreshness,
     // Это 3a
 
     // Поведение:
@@ -38,7 +38,7 @@ export default function Exp3NoFreshness() {
           </p>
           <ul>
             {data.todos.map((t) => (
-              <li key={t.id}>{t.todoName}</li>
+              <li key={t.id}>{t.title}</li>
             ))}
           </ul>
         </div>
