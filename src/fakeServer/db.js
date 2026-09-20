@@ -9,3 +9,12 @@ export const PB4_TODOS = [
   { id: 2, title: "PB4 — Zadanie 2", completed: false },
   { id: 3, title: "PB4 — Zadanie 3", completed: false },
 ];
+
+// PB6 — Koordynacja
+
+export const PB6_TODOS = [
+  { id: 1, title: "PB6 — Zadanie 1", completed: false },
+  { id: 2, title: "PB6 — Zadanie 2", completed: true },
+  { id: 3, title: "PB6 — Zadanie 3", completed: false },
+  { id: 4, title: "PB6 — Zadanie 4", completed: true },
+];

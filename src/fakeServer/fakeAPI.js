@@ -1,4 +1,4 @@
-import { TODOS, PB4_TODOS } from "./db";
+import { TODOS, PB4_TODOS, PB6_TODOS } from "./db";
 
 
 export function simulateFetchTodos({ isFailure, delay = 800 } = {}) {
@@ -138,5 +138,113 @@ export async function fakeDeletePb4Todo(id, { delay = 600 } = {}) {
   return {
     requestId,
     deletedId: id,
+  };
+}
+
+// PB5 — Изменение параметров запроса
+
+let exp5RequestCounter = 0;
+
+function applyPb5Filter(todos, filter) {
+  if (filter === "active") {
+    return todos.filter((todo) => !todo.completed);
+  }
+
+  if (filter === "completed") {
+    return todos.filter((todo) => todo.completed);
+  }
+
+  return todos;
+}
+
+export function fakeFetchPb5Todos(filter = "all", delay = 700) {
+  const requestId = ++exp5RequestCounter;
+
+  console.log(`[PB5] request #${requestId} START | filter=${filter}`);
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const items = applyPb5Filter(TODOS, filter);
+
+      console.log(`[PB5] request #${requestId} END | filter=${filter}`);
+
+      resolve({
+        requestId,
+        items: items.map((todo) => ({ ...todo })),
+        total: items.length,
+      });
+    }, delay);
+  });
+}
+
+// PB6 — Koordynacja
+
+let exp6RequestCounter = 0;
+
+export function fakeFetchPb6Todos({ delay = 800 } = {}) {
+  const requestId = ++exp6RequestCounter;
+
+  console.log(`[PB6][GET] #${requestId} START`);
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(`[PB6][GET] #${requestId} END`);
+
+      resolve({
+        requestId,
+        todos: TODOS.map((todo) => ({ ...todo })),
+      });
+    }, delay);
+  });
+}
+
+// PB6c — Update
+
+let pb6TodosDb = PB6_TODOS.map((todo) => ({ ...todo }));
+let exp6UpdateRequestCounter = 0;
+
+// Восстановление исходного состояния
+export function resetPb6Todos() {
+  pb6TodosDb = PB6_TODOS.map((todo) => ({ ...todo }));
+  exp6UpdateRequestCounter = 0;
+}
+
+// Получение актуального списка задач
+export async function fakeFetchPb6UpdateTodos({ delay = 800 } = {}) {
+  const requestId = ++exp6UpdateRequestCounter;
+
+  console.log(`[PB6c][GET] #${requestId} START`);
+
+  await wait(delay);
+
+  console.log(`[PB6c][GET] #${requestId} END`);
+
+  return {
+    requestId,
+    todos: pb6TodosDb.map((todo) => ({ ...todo })),
+  };
+}
+
+// Добавление новой задачи
+export async function fakeAddPb6Todo(title, { delay = 800 } = {}) {
+  const requestId = ++exp6UpdateRequestCounter;
+
+  console.log(`[PB6c][POST] #${requestId} START`);
+
+  await wait(delay);
+
+  const newTodo = {
+    id: Math.max(0, ...pb6TodosDb.map((todo) => todo.id)) + 1,
+    title,
+    completed: false,
+  };
+
+  pb6TodosDb = [...pb6TodosDb, newTodo];
+
+  console.log(`[PB6c][POST] #${requestId} END`);
+
+  return {
+    requestId,
+    todo: { ...newTodo },
   };
 }

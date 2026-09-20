@@ -60,9 +60,8 @@ import Exp4DeleteInvalidate from "./experiments/exp4-mutacje/delete/delete-inval
 import Exp4DeleteSetQueryData from "./experiments/exp4-mutacje/delete/delete-setquerydata.jsx";
 
 // ===== EXP5 =====
-import Exp5Parametry from "./experiments/exp5-parametry/index-exp5";
-import Exp5ParamChange from "./experiments/exp5-parametry/param-change";
-import Exp5ParamFastChange from "./experiments/exp5-parametry/param-fast-change";
+
+// import Exp5ParamChange from "./experiments/exp5-parametry/param-change";
 import Exp5ParamCache from "./experiments/exp5-parametry/param-cache";
 
 // ===== EXP6 =====
@@ -138,16 +137,9 @@ export default function App() {
 
       {/* ===== EXP5 ===== */}
 
-      <Route path="/exp5" element={<Exp5Parametry />} />
-      <Route path="/exp5/param-change" element={<Exp5ParamChange />} />
-      <Route path="/exp5/param-fast-change" element={<Exp5ParamFastChange />} />
-      <Route path="/exp5/param-cache" element={<Exp5ParamCache />} />
-
-      {/* placeholders */}
-      <Route
-        path="/exp1"
-        element={<div className="exp-btn">Exp1 — позже</div>}
-      />
+{/* <Route path="/exp5" element={<Exp5Parametry />} /> */}
+{/* <Route path="/exp5/param-change" element={<Exp5ParamChange />} /> */}
+<Route path="/exp5" element={<Exp5ParamCache />} />
 
               {/* ===== EXP6 ===== */}
 
