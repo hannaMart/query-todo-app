@@ -25,7 +25,12 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home";
 
-// ===== EXP2 =====
+//  EXP1 
+import Exp1Pobieranie from "./experiments/exp1-pobieranie/index-exp1.jsx";
+import Exp1Baseline from "./experiments/exp1-pobieranie/baseline.jsx";
+import Exp1Scaling from "./experiments/exp1-pobieranie/scaling.jsx";
+
+//  EXP2 
 import Exp2 from "./experiments/exp2-synchronizacja/index-sync.jsx";
 
 import Exp2RaceIndex from "./experiments/exp2-synchronizacja/race/index-race.jsx";
@@ -40,7 +45,7 @@ import Exp2ErrorsIndex from "./experiments/exp2-synchronizacja/errors/index-erro
 import Exp2Errors from "./experiments/exp2-synchronizacja/errors/exp2-errors";
 import Exp2ErrorsLoading from "./experiments/exp2-synchronizacja/errors/exp2-errors-loading";
 
-// ===== EXP3 =====
+//  EXP3
 import Exp3 from "./experiments/exp3-aktualnosc/index-exp3.jsx";
 import Exp3Baseline from "./experiments/exp3-aktualnosc/3a-baseline.jsx";
 
@@ -48,7 +53,7 @@ import Exp3PageReturn from "./experiments/exp3-aktualnosc/3b-page-return/stale-6
 
 import Exp3TabReturn from "./experiments/exp3-aktualnosc/3c-tab-return/tab-return.jsx";
 
-// ===== EXP4 =====
+// EXP4
 import Exp4 from "./experiments/exp4-mutacje/index-exp4.jsx";
 
 import Exp4AddIndex from "./experiments/exp4-mutacje/add/index-add.jsx";
@@ -59,12 +64,12 @@ import Exp4DeleteIndex from "./experiments/exp4-mutacje/delete/index-delete.jsx"
 import Exp4DeleteInvalidate from "./experiments/exp4-mutacje/delete/delete-invalidate.jsx";
 import Exp4DeleteSetQueryData from "./experiments/exp4-mutacje/delete/delete-setquerydata.jsx";
 
-// ===== EXP5 =====
+// EXP5
 
 // import Exp5ParamChange from "./experiments/exp5-parametry/param-change";
 import Exp5ParamCache from "./experiments/exp5-parametry/param-cache";
 
-// ===== EXP6 =====
+// EXP6 
 import Exp6Koordynacja from "./experiments/exp6-koordynacja/index-exp6.jsx";
 import Exp6Shared from "./experiments/exp6-koordynacja/shared.jsx";
 import Exp6Representations from "./experiments/exp6-koordynacja/representations.jsx";
@@ -76,6 +81,11 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+
+      {/* ===== EXP1 ===== */}
+      <Route path="/exp1" element={<Exp1Pobieranie />} />
+      <Route path="/exp1/baseline" element={<Exp1Baseline />} />
+      <Route path="/exp1/scaling" element={<Exp1Scaling />} />
 
       {/* ===== EXP2 ===== */}
       <Route path="/exp2" element={<Exp2 />} />

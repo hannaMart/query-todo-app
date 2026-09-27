@@ -2,34 +2,36 @@ import { Link } from "react-router-dom";
 
 export default function Exp2BackIndex() {
   return (
-    <div>
+    <div className="page">
       <h2>Exp2 — Background synchronizacja</h2>
 
       <p>
-        Background synchronizacja opisuje sytuację, w której dane w interfejsie
-        użytkownika są aktualizowane automatycznie, bez bezpośredniej akcji
+        Background synchronizacja opisuje sytuacje, w których dane w UI są
+        aktualizowane automatycznie (np. po powrocie do karty), bez jawnej akcji
         użytkownika.
       </p>
 
-      <h3>Warianty eksperymentu</h3>
+      <h3>Warianty eksperymentu (React Query)</h3>
 
-      <ul>
+      <ol>
         <li>
           <Link to="/exp2/background/base">
-            Wersja podstawowa (brak synchronizacji)
+            Wersja bazowa — brak synchronizacji w tle
           </Link>
         </li>
+
         <li>
           <Link to="/exp2/background/visibility">
-            Synchronizacja przy powrocie do karty (Visibility)
+            Visibility — synchronizacja przy powrocie do karty
           </Link>
-                  <li>
+        </li>
+
+        <li>
           <Link to="/exp2/background/visibility-delayed">
-            Synchronizacja przy powrocie do karty (Visibility-delayed)
+            Visibility + opóźnienie — obserwacja zachowania UI podczas aktualizacji
           </Link>
         </li>
-        </li>
-      </ul>
+      </ol>
 
       <Link to="/exp2">← Powrót do Exp2</Link>
     </div>
