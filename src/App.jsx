@@ -39,7 +39,7 @@ import Exp2Race from "./experiments/exp2-synchronizacja/race/exp2-race";
 import Exp2BackIndex from "./experiments/exp2-synchronizacja/background/index-back.jsx";
 import Exp2Back from "./experiments/exp2-synchronizacja/background/exp2-background.jsx";
 import Exp2BackVisibility from "./experiments/exp2-synchronizacja/background/exp2-background-visibility.jsx";
-import Exp2BackVisibilityDelayed from "./experiments/exp2-synchronizacja/background/exp2-background-visibility-delayed-predictability.jsx";
+import Exp2BackVisibilityDelayed from "./experiments/exp2-synchronizacja/background/exp2-background-visibility-delayed.jsx";
 
 import Exp2ErrorsIndex from "./experiments/exp2-synchronizacja/errors/index-errors.jsx";
 import Exp2Errors from "./experiments/exp2-synchronizacja/errors/exp2-errors";
@@ -79,6 +79,8 @@ import Exp6Update from "./experiments/exp6-koordynacja/update.jsx";
 
 export default function App() {
   return (
+     <>
+    <header className="app-header">React Query</header>
     <Routes>
       <Route path="/" element={<Home />} />
 
@@ -168,5 +170,6 @@ export default function App() {
 
 
     </Routes>
+    </>
   );
 }

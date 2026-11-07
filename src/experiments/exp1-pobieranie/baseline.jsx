@@ -15,16 +15,9 @@ export default function Exp1Baseline() {
 
   return (
     <div className="exp1">
-      <h2>Базовое получение данных — React Query</h2>
-
-      <p>
-        Один компонент получает server-state при монтировании с помощью
-        useQuery.
-      </p>
-
-      <p>Todos: {todos.length}</p>
-
-      <Link to="/exp1">← Назад</Link>
+      <h2>Pobieranie danych — jeden komponent</h2>
+      <p>Liczba zadań: {todos.length}</p>
+      <Link to="/exp1">← Wróć</Link>
     </div>
   );
 }
