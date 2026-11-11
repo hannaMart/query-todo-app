@@ -87,3 +87,9 @@ body {
   text-align: center;
   letter-spacing: 0.5px;
 }
+
+button.active {
+  background-color: #dbeafe;
+  border-color: #2563eb;
+  font-weight: 600;
+}

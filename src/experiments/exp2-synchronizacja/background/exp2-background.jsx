@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 // "сервер": вернуть значение сразу (без задержки)
 async function fetchSnapshotTime() {
@@ -29,20 +30,20 @@ export default function BgBasicQuery() {
   });
 
   return (
-    <div className="page">
+   <div className="page">
       {/* Реальные часы */}
       <div style={{ marginBottom: 16 }}>
-        <strong>Реальное время:</strong> {realTime}
+        <strong>Aktualny czas:</strong> {realTime}
       </div>
 
       <hr />
 
-      {/* Блок эксперимента */}
-      <h2>Background — base (query)</h2>
-
+      <h2>Background — Base</h2>
       <p>
-        Снимок времени (UI): <b>{snapshotTime}</b>
+        Czas ostatniego odczytu: <b>{snapshotTime}</b>
       </p>
+      <br/>
+      <Link to="/exp2">← Wróć</Link>
     </div>
   );
 }

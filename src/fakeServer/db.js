@@ -1,5 +1,5 @@
 export const TODOS = [
-  { id: 1, title: "Drink 2 litres of water", completed: false },
+  { id: 1, title: "Drink 1 litre of water", completed: false },
   { id: 2, title: "Task 2", completed: true },
   { id: 3, title: "Task 3", completed: false },
   { id: 4, title: "Task 4", completed: true },

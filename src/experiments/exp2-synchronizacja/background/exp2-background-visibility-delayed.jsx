@@ -1,82 +1,72 @@
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 
-function sleep(ms) {
-  return new Promise((r) => setTimeout(r, ms));
-}
-
-// сервер — с задержкой (как в manual)
-async function fetchDataDelayed() {
-  await sleep(1500);
-  return {
-    version: (Math.random() * 100).toFixed(0),
-    updatedAt: new Date().toLocaleTimeString(),
-  };
-}
+import { Link } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { simulateFetchTodos } from "../../../fakeServer/fakeAPI";
 
 export default function Exp2BackgroundVisibilityDelayedQuery() {
-  // локальная "намеренная очистка UI" (как setData(null) в manual)
-  const [cleared, setCleared] = useState(false);
+  const queryClient = useQueryClient();
+  const queryKey = ["exp2-bg-visibility-delayed-query"];
 
-  const {
-    data,
-    isFetching,
-    refetch,
-  } = useQuery({
-    queryKey: ["exp2-bg-visibility-delayed-query"],
-    queryFn: fetchDataDelayed,
+  const { data, isFetching, dataUpdatedAt } = useQuery({
+    queryKey,
 
-    // никаких автотриггеров — мы управляем сами
+    queryFn: async () => {
+      // Pierwsze pobranie bez opóźnienia, kolejne z opóźnieniem
+      const delay = queryClient.getQueryData(queryKey) ? 3000 : 0;
+
+      const todos = await simulateFetchTodos({ delay });
+
+      return {
+        todos,
+        version: Math.floor(Math.random() * 100) + 1,
+      };
+    },
+
     staleTime: 0,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     refetchOnMount: false,
     refetchOnReconnect: false,
     retry: false,
-
-    // чтобы первый рендер был сразу (как baseline)
-    initialData: () => ({
-      version: 1,
-      updatedAt: new Date().toLocaleTimeString(),
-    }),
   });
 
-  useEffect(() => {
-    const onVisibility = () => {
-      if (document.visibilityState !== "visible") return;
-
-      // намеренная очистка UI на время обновления
-      setCleared(true);
-
-      // запускаем "запрос" вручную (как timeout в manual)
-      refetch().finally(() => {
-        setCleared(false);
-      });
-    };
-
-    document.addEventListener("visibilitychange", onVisibility);
-    return () => document.removeEventListener("visibilitychange", onVisibility);
-  }, [refetch]);
-
-  const shownData = cleared ? null : data;
+  const updatedAt = dataUpdatedAt
+    ? new Date(dataUpdatedAt).toLocaleTimeString("pl-PL")
+    : "—";
 
   return (
     <div className="page">
-      <h2>Background — visibility (query, delayed)</h2>
+      <h2>Background — Visibility + Delayed</h2>
 
       <p>
-        Добавлена задержка, чтобы увидеть,
-        что происходит с UI во время обновления.
+        Aktualizacja danych po powrocie do karty
+        z opóźnieniem 3000 ms.
       </p>
 
       <div className="card">
-        <div><b>Loading:</b> {isFetching ? "true" : "false"}</div>
+        <div>
+          <b>Aktualizacja w toku:</b> {isFetching ? "Tak" : "Nie"}
+        </div>
+
+        <div>
+          <b>Wersja odpowiedzi:</b> {data?.version ?? "—"}
+        </div>
+
+        <div>
+          <b>Ostatnia aktualizacja:</b> {updatedAt}
+        </div>
+
+        {isFetching && <p><i>Aktualizowanie danych…</i></p>}
 
         <hr />
 
-        <div><b>Версия:</b> {shownData ? shownData.version : "—"}</div>
-        <div><b>Обновлено:</b> {shownData ? shownData.updatedAt : "—"}</div>
+        <b>Lista zadań:</b>
+        <ul>
+          {data?.todos.map((todo) => (
+            <li key={todo.id}>{todo.title}</li>
+          ))}
+        </ul>
 
-        {isFetching && <p><i>Обновление…</i></p>}
+        <Link to="/exp2">← Wróć</Link>
       </div>
     </div>
   );

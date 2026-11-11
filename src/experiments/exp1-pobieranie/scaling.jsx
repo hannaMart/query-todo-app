@@ -23,13 +23,13 @@ function TodoCard({ index }) {
 export default function Exp1Scaling() {
   return (
     <div className="exp1">
-      <h2>Масштабирование количества компонентов — React Query</h2>
+      <h2>Skalowanie liczby komponentów</h2>
 
       {Array.from({ length: 10 }, (_, index) => (
         <TodoCard key={index} index={index + 1} />
       ))}
 
-      <Link to="/exp1">← Назад</Link>
+      <Link to="/exp1">← Wróć</Link>
     </div>
   );
 }

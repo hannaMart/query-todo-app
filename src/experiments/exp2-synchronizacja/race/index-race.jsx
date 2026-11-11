@@ -19,7 +19,7 @@ export default function Exp2RaceIndex() {
         </li>
       </ul>
 
-      <Link className="race__back" to="/exp2">← Powrót do Exp2</Link>
+      <Link className="race__back" to="/exp2">← Wróć do Exp2</Link>
     </div>
   );
 }
