@@ -8,10 +8,7 @@ export default function Exp2ErrorsIndex() {
       <p>
         Obsługa błędów opisuje zachowanie interfejsu użytkownika w sytuacji, gdy
         zapytanie sieciowe kończy się niepowodzeniem oraz gdy użytkownik
-        podejmuje próbę ponownego pobrania danych. W szczególności analizowana
-        jest spójność przejść stanów zapytania (loading → error → retry →
-        success) oraz potencjalne problemy wynikające z ręcznego zarządzania
-        stanem ładowania w aplikacji.
+        podejmuje próbę ponownego pobrania danych.
       </p>
 
       <h3>Warianty eksperymentu</h3>
@@ -19,7 +16,7 @@ export default function Exp2ErrorsIndex() {
       <ul>
         <li>
           <Link to="/exp2/errors/base">
-            Wersja z błędem (niespójny stan UI)
+            Kwestia niespójnego stanu UI
           </Link>
         </li>
 

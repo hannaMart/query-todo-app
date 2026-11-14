@@ -112,7 +112,7 @@ const reset2 = () => {
 
       {q1.isFetching && <div>Loading…</div>}
       {q1.isError && !q1.isFetching && (
-        <div>Błąd: {q1.error?.message}</div>
+        <div style = {{color:"red"}}>Błąd: {q1.error?.message}</div>
       )}
 
       {q1.isSuccess && (

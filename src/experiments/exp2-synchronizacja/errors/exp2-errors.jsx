@@ -30,7 +30,7 @@ export default function Exp2ErrorsQuery() {
 
   return (
     <div className="page">
-      <h2>Exp2 — Errors / retry (React Query)</h2>
+      <h2>Errors / retry</h2>
 
       <label>
         <input
@@ -40,10 +40,7 @@ export default function Exp2ErrorsQuery() {
         />
         Symuluj błąd zapytania
       </label>
-
       <br />
-      <br />
-
       <button onClick={handleFetch} disabled={query.isFetching}>
         Fetch
       </button>
@@ -52,7 +49,7 @@ export default function Exp2ErrorsQuery() {
 
       {query.isError && (
         <div>
-          <div>Błąd: {query.error?.message}</div>
+          <div style={{ color: "red" }}>Błąd: {query.error?.message}</div>
 
           <button onClick={handleFetch} disabled={query.isFetching}>
             Retry
@@ -67,6 +64,7 @@ export default function Exp2ErrorsQuery() {
           ))}
         </ul>
       )}
+      
     </div>
   );
 }
