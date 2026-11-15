@@ -1,16 +1,13 @@
+
 import { useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { simulateFetchTodos } from "../../../fakeServer/fakeAPI";
+import { Link } from "react-router-dom";
 
 export default function Exp2ErrorsLoadingQuery() {
   const queryClient = useQueryClient();
 
-  // CASE 1
-  // Сравнение с manual BUG 1:
-  // в manual можно установить loading и забыть завершить его.
-  // В React Query isFetching связан с реальным запросом
-  // и автоматически меняется после его завершения.
-
+  // Przypadek 1
   const [fail1, setFail1] = useState(false);
 
   const q1 = useQuery({
@@ -18,7 +15,7 @@ export default function Exp2ErrorsLoadingQuery() {
     queryFn: () =>
       simulateFetchTodos({
         isFailure: fail1,
-        delay: 1200,
+        delay: 3000,
       }),
     enabled: false,
     retry: 0,
@@ -34,14 +31,7 @@ export default function Exp2ErrorsLoadingQuery() {
     });
   };
 
-  // CASE 2
-  // Сравнение с manual BUG 2:
-  // первый запрос заканчивается ошибкой,
-  // затем выполняется retry того же query.
-  //
-  // В manual можно забыть снова установить loading.
-  // React Query при refetch автоматически устанавливает isFetching=true.
-
+  // Przypadek 2
   const shouldFail = useRef(true);
 
   const q2 = useQuery({
@@ -49,7 +39,7 @@ export default function Exp2ErrorsLoadingQuery() {
     queryFn: () =>
       simulateFetchTodos({
         isFailure: shouldFail.current,
-        delay: 800,
+        delay: 3000,
       }),
     enabled: false,
     retry: 0,
@@ -65,21 +55,24 @@ export default function Exp2ErrorsLoadingQuery() {
     q2.refetch();
   };
 
-const reset2 = () => {
-  shouldFail.current = true;
+  const reset2 = () => {
+    shouldFail.current = true;
 
-  queryClient.resetQueries({
-    queryKey: ["exp2-errors-loading-2"],
-  });
-};
+    queryClient.resetQueries({
+      queryKey: ["exp2-errors-loading-2"],
+    });
+  };
 
   return (
     <div className="page">
-      <h2>Exp2 — Loading / errors — React Query</h2>
-
-      <hr />
-
-      <h3>CASE 1 — loading nie pozostaje zablokowany</h3>
+      <h2>Kontrola stanu ładowania</h2>
+{/* 
+      <p>
+        React Query zarządza stanem wykonywania zapytania.
+        Sprawdzamy zachowanie loading w tych samych sytuacjach
+        co w Manual.
+      </p> */}
+      {/* <h3>1. Loading znika po zakończeniu pobierania</h3>
 
       <label>
         <input
@@ -87,17 +80,19 @@ const reset2 = () => {
           checked={fail1}
           onChange={(e) => setFail1(e.target.checked)}
         />
-        Symuluj błąd
+        Symuluj nieudane pobieranie danych
       </label>
 
       <br />
       <br />
 
       <button onClick={start1} disabled={q1.isFetching}>
-        Start
+        Pobierz dane
       </button>
 
-      <button onClick={reset1}>Reset</button>
+      <button onClick={reset1}>
+        Reset
+      </button>
 
       <div>
         Status:{" "}
@@ -111,34 +106,39 @@ const reset2 = () => {
       </div>
 
       {q1.isFetching && <div>Loading…</div>}
+
       {q1.isError && !q1.isFetching && (
-        <div style = {{color:"red"}}>Błąd: {q1.error?.message}</div>
+        <div style={{ color: "red" }}>
+          Błąd: {q1.error?.message}
+        </div>
       )}
 
       {q1.isSuccess && (
         <ul>
-          {q1.data?.map((todo) => (
-            <li key={todo.id}>{todo.title}</li>
+          {q1.data?.map((t) => (
+            <li key={t.id}>{t.title}</li>
           ))}
         </ul>
       )}
 
-      <hr />
+      <hr /> */}
 
-      <h3>CASE 2 — retry otrzymuje stan loading</h3>
+      <h3>2. Loading pojawia się podczas ponownego pobierania</h3>
 
       <button onClick={start2Fail} disabled={q2.isFetching}>
-        Start z błędem
+        Pobierz dane (symulacja błędu)
       </button>
 
       <button
         onClick={retry2Ok}
         disabled={!q2.isError || q2.isFetching}
       >
-        Retry z OK
+        Spróbuj ponownie pobrać dane
       </button>
 
-      <button onClick={reset2}>Reset</button>
+      <button onClick={reset2}>
+        Reset
+      </button>
 
       <div>
         Status:{" "}
@@ -152,17 +152,23 @@ const reset2 = () => {
       </div>
 
       {q2.isFetching && <div>Loading…</div>}
+
       {q2.isError && !q2.isFetching && (
-        <div>Błąd: {q2.error?.message}</div>
+        <div style={{ color: "red" }}>
+          Błąd: {q2.error?.message}
+        </div>
       )}
 
       {q2.isSuccess && (
         <ul>
-          {q2.data?.map((todo) => (
-            <li key={todo.id}>{todo.title}</li>
+          {q2.data?.map((t) => (
+            <li key={t.id}>{t.title}</li>
           ))}
         </ul>
       )}
+
+      <br />
+      <Link to="/exp2">← Wróć</Link>
     </div>
   );
 }
