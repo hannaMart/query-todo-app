@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { fakeFetchFreshness } from "../../../fakeServer/fakeAPI";
 
-const STALE_TIME_MS = 60_000;
+const STALE_TIME_MS = 30_000;
 
 export default function Exp3TabReturnQuery() {
   const { data, isLoading, isFetching } = useQuery({
@@ -21,21 +21,26 @@ export default function Exp3TabReturnQuery() {
 
   return (
     <div className="page">
-      <h2>PB3 – 3c – Query – возврат на вкладку</h2>
+      <h2>3c. Aktualność danych po powrocie do karty przeglądarki</h2>
 
       <p>
-        <strong>Fetching:</strong> {isFetching ? "yes" : "no"}
+        <strong>Ostatnie pobranie:</strong>{" "}
+        {new Date(data.fetchedAt).toLocaleTimeString("pl-PL", {
+          timeZone: "Europe/Warsaw",
+          hour12: false,
+        })}
+      </p>
+      
+      <p>
+        <strong>Numer żądania:</strong> {data.requestId}
+      </p>
+      <p>
+        <strong>Pobieranie w toku: </strong> {isFetching ? "tak" : "nie"}
       </p>
 
       <p>
-        <strong>Fetched at:</strong> {data.fetchedAt}
+        <strong>Todos:</strong>
       </p>
-
-      <p>
-        <strong>Request ID:</strong> {data.requestId}
-      </p>
-
-      <p><strong>Todos:</strong></p>
 
       <ul>
         {data.todos.map((todo) => (

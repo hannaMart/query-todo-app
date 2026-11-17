@@ -11,7 +11,7 @@ export default function Exp3Baseline() {
     // нет staleTime
     // каждый mount = новый запрос
     // база для сравнения
-    
+
     // ВАЖНО:
     // нет staleTime
     // нет cacheTime / gcTime
@@ -20,17 +20,21 @@ export default function Exp3Baseline() {
 
   return (
     <div>
-      <h2>PB3 – 3a – Query (no freshness)</h2>
+      <h2>3a. Domyślne zachowanie przy pobieraniu danych</h2>
 
       {isLoading && <p>Loading…</p>}
 
       {data && (
         <div>
           <p>
-            <strong>Fetched at:</strong> {data.fetchedAt}
+            <strong>Ostatnie pobranie:</strong>{" "}
+            {new Date(data.fetchedAt).toLocaleTimeString("pl-PL", {
+              timeZone: "Europe/Warsaw",
+              hour12: false,
+            })}
           </p>
           <p>
-            <strong>Request ID:</strong> {data.requestId}
+            <strong>Numer żądania:</strong> {data.requestId}
           </p>
 
           <p>

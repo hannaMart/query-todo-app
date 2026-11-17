@@ -13,18 +13,21 @@ export default function Exp3Aktualnosc() {
       <ul className="exp3__list">
         <li>
           <Link to="/exp3/baseline">
-            Отсутствие контроля актуальности данных
+            3а — Domyślne zachowanie przy pobieraniu danych
           </Link>
         </li>
         <li>
           <Link to="/exp3/page-return">
-            Влияние staleTime на повторные запросы
+            3b — Влияние staleTime на повторные запросы
           </Link>
         </li>
         <li>
           <Link to="/exp3/tab-return">
-            Возврат к представлению после перерыва
+            3c — Возврат к представлению после перерыва
           </Link>
+        </li>
+                <li>
+          <Link to="/exp3/polling">3d -Okresowe pobieranie danych (polling)</Link>
         </li>
       </ul>
 

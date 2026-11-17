@@ -48,6 +48,7 @@ import Exp2ErrorsLoading from "./experiments/exp2-synchronizacja/errors/exp2-err
 //  EXP3
 import Exp3 from "./experiments/exp3-aktualnosc/index-exp3.jsx";
 import Exp3Baseline from "./experiments/exp3-aktualnosc/3a-baseline.jsx";
+import Exp3Polling from "./experiments/exp3-aktualnosc/3d-polling.jsx";
 
 import Exp3PageReturn from "./experiments/exp3-aktualnosc/3b-page-return/stale-60s.jsx";
 
@@ -125,6 +126,8 @@ export default function App() {
         path="/exp3/tab-return"
         element={<Exp3TabReturn />}
       />
+      {/* 3d */}
+      <Route path="/exp3/polling" element={<Exp3Polling />} />
 
 {/* ===== EXP4 ===== */}
 
