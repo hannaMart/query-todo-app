@@ -35,7 +35,7 @@ export default function DeleteInvalidate() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>PB4 — 4b Delete (query, invalidate)</h2>
+      <h2>PB4 — Mutacje: Delete — invalidateQueries</h2>
 
       <ul>
         {todos.map((todo) => (

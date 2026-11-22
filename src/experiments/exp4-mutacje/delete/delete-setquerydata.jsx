@@ -44,7 +44,7 @@ export default function DeleteSetQueryData() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>PB4 — 4b Delete (query, setQueryData)</h2>
+      <h2>PB4 — Mutacje: Delete — setQueryData</h2>
 
       <ul>
         {todos.map((todo) => (

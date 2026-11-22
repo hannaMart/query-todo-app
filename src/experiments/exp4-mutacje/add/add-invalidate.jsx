@@ -37,7 +37,7 @@ export default function AddInvalidate() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>PB4 — 4a Add (query, invalidate)</h2>
+      <h2>PB4 — Mutacje: Add — invalidateQueries</h2>
 
       <input
         value={newTodo}

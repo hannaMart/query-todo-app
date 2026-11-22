@@ -38,7 +38,7 @@ export default function AddSetQueryData() {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h2>PB4 — 4a Add (query, setQueryData)</h2>
+      <h2>PB4 — Mutacje: Add — setQueryData</h2>
 
       <input
         value={newTodo}
