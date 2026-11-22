@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
@@ -14,16 +15,16 @@ export default function Exp5ParamCache() {
 
   return (
     <div className="exp5">
-<h2 className="exp5__title">
-  PB5 — Изменение параметров запроса (Query)
-</h2>
-
-<p className="exp5__desc">
-  При изменении фильтра TanStack Query получает данные для
-  соответствующего queryKey. При повторном выборе ранее
-  использованного фильтра данные берутся из кэша
-  без выполнения нового запроса.
-</p>
+      <h2 className="exp5__title">
+        PB5 — Zmiana parametrów zapytania i pamięć podręczna
+      </h2>
+{/* 
+      <p className="exp5__desc">
+        Przy zmianie filtra React Query pobiera dane dla odpowiedniego
+        queryKey. Przy ponownym wyborze wcześniej używanego filtra
+        dane mogą zostać wykorzystane z pamięci podręcznej
+        bez wykonywania nowego żądania.
+      </p> */}
 
       <div
         style={{
@@ -56,26 +57,27 @@ export default function Exp5ParamCache() {
       </div>
 
       <p>
-        <strong>Текущий фильтр:</strong> {filter}
+        <strong>Aktualny filtr:</strong> {filter}
       </p>
 
       <p>
-        <strong>Кэшированные данные:</strong> повторно используются
-        без ограничения по времени в рамках эксперимента.
+        <strong>Pamięć podręczna:</strong> dane są uznawane
+        za aktualne (staleTime: Infinity), dopóki pozostają
+        w pamięci podręcznej.
       </p>
 
-      {isLoading && <p>Загрузка...</p>}
+      {isLoading && <p>Ładowanie...</p>}
 
-      {isFetching && !isLoading && <p>Фоновое обновление...</p>}
+      {isFetching && !isLoading && <p>Odświeżanie danych...</p>}
 
       {data && (
         <>
           <p>
-            <strong>Номер запроса:</strong> {data.requestId}
+            <strong>Numer żądania:</strong> {data.requestId}
           </p>
 
           <p>
-            <strong>Количество элементов:</strong> {data.total}
+            <strong>Liczba elementów:</strong> {data.total}
           </p>
 
           <ul>
@@ -88,7 +90,7 @@ export default function Exp5ParamCache() {
         </>
       )}
 
-      <Link to="/">← Назад</Link>
+      <Link to="/">← Powrót</Link>
     </div>
   );
 }
